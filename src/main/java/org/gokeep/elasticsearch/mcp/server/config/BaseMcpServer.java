@@ -1,9 +1,10 @@
-package org.gokeep.elasticsearch.mcp.server;
+package org.gokeep.elasticsearch.mcp.server.config;
 
 import io.agroal.api.AgroalDataSource;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import org.gokeep.elasticsearch.mcp.server.enmus.SqlGe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -33,7 +34,7 @@ public class BaseMcpServer {
      * @return List<Map<String, Object>>
      */
     public List<Map<String, Object>> execute(String sql, Object... args) {
-        log.info("SQL: {}\n params={}", sql, args);
+        log.info("SQL: {} params={}", sql, args);
         if (args == null) {
             return jdbcTemplate.queryForList(sql);
         }else {

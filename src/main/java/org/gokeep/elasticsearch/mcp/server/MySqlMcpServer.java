@@ -9,8 +9,8 @@ import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.QuarkusApplication;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.gokeep.elasticsearch.mcp.server.config.BaseMcpServer;
+import org.gokeep.elasticsearch.mcp.server.enmus.SqlGe;
 
 import java.util.List;
 import java.util.Map;
@@ -21,26 +21,35 @@ import java.util.Map;
 @ApplicationScoped
 public class MySqlMcpServer extends BaseMcpServer implements QuarkusApplication {
 
-    private static final Logger log = LoggerFactory.getLogger(MySqlMcpServer.class);
+
     @Inject
     ObjectMapper objectMapper;
 
 
-    @Tool(description = "查询所有的数据库，并带有注释")
+    @Tool(description = """
+            CN: 查询所有的数据库信息
+            EN: Query all databases info
+            """)
     public ToolResponse showDatabases() throws JsonProcessingException {
         List<Map<String, Object>> result = this.execute(SqlGe.SHOW_DATABASES);
         return ToolResponse.success(objectMapper.writeValueAsString(result));
     }
 
 
-    @Tool(description = "查询所有的表，并带有注释")
+    @Tool(description = """
+            CN: 查询所有的表信息
+            EN: Query all tables info
+            """)
     public ToolResponse showTables(@ToolArg(description = "数据库名") String databaseName) throws JsonProcessingException {
         List<Map<String, Object>> result = this.execute(SqlGe.SHOW_TABLES, databaseName);
         return ToolResponse.success(objectMapper.writeValueAsString(result));
 
     }
 
-    @Tool(description = "查询表结构")
+    @Tool(description = """
+            CN: 查询所有的表，并带有注释
+            EN: Query table description without comment
+            """)
     public ToolResponse descTable(
             @ToolArg(description = "数据库名") String databaseName,
             @ToolArg(description = "表名") String tableName) throws JsonProcessingException {
@@ -48,7 +57,10 @@ public class MySqlMcpServer extends BaseMcpServer implements QuarkusApplication 
         return ToolResponse.success(objectMapper.writeValueAsString(result));
     }
 
-    @Tool(description = "执行sql查询数据")
+    @Tool(description = """
+            CN: 执行sql查询数据
+            EN: Execute sql query data
+            """)
     public ToolResponse queryBySql(@ToolArg(description = "执行sql语句") String sql) throws JsonProcessingException {
         List<Map<String, Object>> result = this.execute(sql);
         return ToolResponse.success(objectMapper.writeValueAsString(result));

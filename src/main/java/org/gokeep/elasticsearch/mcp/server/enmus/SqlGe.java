@@ -1,4 +1,4 @@
-package org.gokeep.elasticsearch.mcp.server;
+package org.gokeep.elasticsearch.mcp.server.enmus;
 
 public enum SqlGe {
     SHOW_DATABASES("""
